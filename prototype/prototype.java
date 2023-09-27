@@ -3,7 +3,7 @@ interface villainproto{
 }
 
 abstract class villain implements Cloneable,villainproto{
-    abstract void attachprotagonist();
+    abstract void attackprotagonist();
 }
 
 class villain1 extends villain{
@@ -14,7 +14,7 @@ class villain1 extends villain{
          this.mp = mp;
     }
     @Override
-    void attachprotagonist() {
+    void attackprotagonist() {
         System.out.println("attacking protagonist");
     }
 

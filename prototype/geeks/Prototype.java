@@ -38,7 +38,7 @@ class blueColor extends Color
 	@Override
 	void addColor()
 	{
-		System.out.println("Blue color added");
+		System.out.println("Blue color added"+this);
 	}
 	
 }
@@ -53,7 +53,7 @@ class blackColor extends Color{
 	@Override
 	void addColor()
 	{
-		System.out.println("Black color added");
+		System.out.println("Black color added" + this);
 	}
     String colorname(){
     	return this.colorName;
@@ -70,9 +70,14 @@ class ColorStore {
 		colorMap.put("black", new blackColor());
 	}
 	
-	public static Color getColor(String colorName)
+	public static Color getColorClone(String colorName)
 	{
 		return (Color) colorMap.get(colorName).clone();
+	}
+	public static Color getColor(String colorName){
+		
+		return (Color) colorMap.get(colorName);
+
 	}
 }
 
@@ -87,8 +92,10 @@ class Prototype
 		ColorStore.getColor("black").addColor();
 		ColorStore.getColor("blue").addColor();
 
-      Color c1_clone = ColorStore.getColor("black");
-      System.out.println(c1_clone.colorName); // succesfully cloned 
+      Color c1_clone = ColorStore.getColorClone("black");
+	  Color c1_notClone = ColorStore.getColor("black");
+      System.out.println("This is clone .. so the ref hash value will not match with any of the added color object in the map"+c1_clone); // succesfully cloned 
+	  System.out.println("This is clone .. so the ref hash value will match with any one of the added color object in the map"+c1_notClone);
 	  
 	}
   

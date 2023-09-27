@@ -10,13 +10,13 @@ class simplethread implements Runnable{
     }
     @Override
     public void run() {
-        chocolateboiler boiler = chocolateboiler.getuniqueboiler("using thread");
+        chocolateboiler boiler = chocolateboiler.getuniqueboiler("using "+ name);
 
         boiler.fill();
         boiler.boil();;
         boiler.fill();
         boiler.boil();
-        // boiler.drain();
+        boiler.drain();
         
     }
 }
@@ -58,6 +58,7 @@ class chocolateboiler{
             else{
                 System.out.println(msg + " Unique instance exists!!!");
             }
+
             return uniquChocolateboiler;
         }
 
@@ -66,7 +67,7 @@ class chocolateboiler{
 
         public  static chocolateboiler getuniqueboiler(String msg){
           
-                synchronized(chocolateboiler.class){
+                synchronized(chocolateboiler.class){ /////////
                     if(uniquChocolateboiler == null){
                         System.out.println(msg + " Sync method : Creating chocolateboiler for the first and last time");
                         uniquChocolateboiler = new chocolateboiler();
@@ -127,7 +128,7 @@ public class factory{
         thread2.start();
         // chocolateboiler uniChocolateboiler = chocolateboiler.getuniqueboiler("this is a msg");
         // chocolateboiler uniChocolateboiler2 = chocolateboiler.getuniqueboiler("this is a msg");
-        // uniChocolateboiler.fill();
+        // // uniChocolateboiler.fill();
         // uniChocolateboiler.fill();
         // uniChocolateboiler.boil();
         // uniChocolateboiler.fill();
