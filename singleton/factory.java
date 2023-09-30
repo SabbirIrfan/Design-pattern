@@ -121,7 +121,7 @@ class chocolateboiler{
 
 public class factory{
     public static void main(String[] args) {
-        Thread thread1 = new Thread(new simplethread("thread1"));
+        Thread thread1 = new Thread(new simplethread("thread1"));  //// here new simplethread is a Runable we know that have to used by Thread
         Thread thread2 = new Thread(new simplethread("thread2"));
 
         thread1.start();
