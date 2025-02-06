@@ -1,149 +1,143 @@
-// Java program to demonstrate implementation of
-// Strategy Pattern
+// Behaviors - Separating interfaces and implementations
+package behaviors;
 
-
-// Abstract as you must have a specific fighter
-abstract class Fighter
-{
-	KickBehavior kickBehavior;
-	JumpBehavior jumpBehavior;
-
-	public Fighter(KickBehavior kickBehavior,
-				JumpBehavior jumpBehavior)
-	{
-		this.jumpBehavior = jumpBehavior;
-		this.kickBehavior = kickBehavior;
-	}
-	public void punch()
-	{
-		System.out.println("Default Punch");
-	}
-	public void kick()
-	{
-		// delegate to kick behavior
-		kickBehavior.kick();
-	}
-	public void jump()
-	{
-
-		// delegate to jump behavior
-		jumpBehavior.jump();
-	}
-	public void roll()
-	{
-		System.out.println("Default Roll");
-	}
-	public void setKickBehavior(KickBehavior kickBehavior)
-	{
-		this.kickBehavior = kickBehavior;
-	}
-	public void setJumpBehavior(JumpBehavior jumpBehavior)
-	{
-		this.jumpBehavior = jumpBehavior;
-	}
-	public abstract void display();
+// Kick behavior interface
+interface KickBehavior {
+    void kick();
 }
 
-// Encapsulated kick behaviors
-interface KickBehavior
-{
-	public void kick();
-}
-class LightningKick implements KickBehavior
-{
-	public void kick()
-	{
-		System.out.println("Lightning Kick");
-	}
-}
-class TornadoKick implements KickBehavior
-{
-	public void kick()
-	{
-		System.out.println("Tornado Kick");
-	}
+// Jump behavior interface
+interface JumpBehavior {
+    void jump();
 }
 
-// Encapsulated jump behaviors
-interface JumpBehavior
-{
-	public void jump();
-}
-class ShortJump implements JumpBehavior
-{
-	public void jump()
-	{
-		System.out.println("Short Jump");
-	}
-}
-class LongJump implements JumpBehavior
-{
-	public void jump()
-	{
-		System.out.println("Long Jump");
-	}
+// Kick behavior implementations
+class LightningKick implements KickBehavior {
+    @Override
+    public void kick() {
+        System.out.println("Lightning Kick!");
+    }
 }
 
-// Characters
-class Ryu extends Fighter
-{
-	public Ryu(KickBehavior kickBehavior,
-			JumpBehavior jumpBehavior)
-	{
-		super(kickBehavior,jumpBehavior);
-	}
-	public void display()
-	{
-		System.out.println("Ryu");
-	}
-}
-class Ken extends Fighter
-{
-	public Ken(KickBehavior kickBehavior,
-			JumpBehavior jumpBehavior)
-	{
-		super(kickBehavior,jumpBehavior);
-	}
-	public void display()
-	{
-		System.out.println("Ken");
-	}
-}
-class ChunLi extends Fighter
-{
-	public ChunLi(KickBehavior kickBehavior,
-				JumpBehavior jumpBehavior)
-	{
-		super(kickBehavior,jumpBehavior);
-	}
-	public void display()
-	{
-		System.out.println("ChunLi");
-	}
+class TornadoKick implements KickBehavior {
+    @Override
+    public void kick() {
+        System.out.println("Tornado Kick!");
+    }
 }
 
-// Driver class
-class StreetFighter
-{
-	public static void main(String args[])
-	{
-		// let us make some behaviors first
-		JumpBehavior shortJump = new ShortJump();
-		JumpBehavior LongJump = new LongJump();
-		KickBehavior tornadoKick = new TornadoKick();
+// Jump behavior implementations
+class ShortJump implements JumpBehavior {
+    @Override
+    public void jump() {
+        System.out.println("Short Jump!");
+    }
+}
 
-		// Make a fighter with desired behaviors
-		Fighter ken = new Ken(tornadoKick,shortJump);
-		ken.display();
+class LongJump implements JumpBehavior {
+    @Override
+    public void jump() {
+        System.out.println("Long Jump!");
+    }
+}
 
-		// Test behaviors
-		ken.punch();
-		ken.kick();
-		ken.jump();
+// Base fighter class
+abstract class Fighter {
+    private KickBehavior kickBehavior;
+    private JumpBehavior jumpBehavior;
+    private final String name;
 
-		// Change behavior dynamically (algorithms are
-		// interchangeable)
-		ken.setJumpBehavior(LongJump);
-		ken.jump();
-	}
+    protected Fighter(String name, KickBehavior kickBehavior, JumpBehavior jumpBehavior) {
+        this.name = name;
+        this.kickBehavior = kickBehavior;
+        this.jumpBehavior = jumpBehavior;
+    }
+
+    // Core actions
+    public void punch() {
+        System.out.println(name + " performs a Default Punch!");
+    }
+
+    public void kick() {
+        System.out.print(name + " ");
+        kickBehavior.kick();
+    }
+
+    public void jump() {
+        System.out.print(name + " ");
+        jumpBehavior.jump();
+    }
+
+    public void roll() {
+        System.out.println(name + " performs a Default Roll!");
+    }
+
+    // Behavior setters for dynamic behavior changes
+    public void setKickBehavior(KickBehavior kickBehavior) {
+        this.kickBehavior = kickBehavior;
+    }
+
+    public void setJumpBehavior(JumpBehavior jumpBehavior) {
+        this.jumpBehavior = jumpBehavior;
+    }
+
+    public void display() {
+        System.out.println("\nFighter: " + name);
+    }
+
+    // Getter for name
+    public String getName() {
+        return name;
+    }
+}
+
+// Concrete fighter classes
+class Ryu extends Fighter {
+    public Ryu(KickBehavior kickBehavior, JumpBehavior jumpBehavior) {
+        super("Ryu", kickBehavior, jumpBehavior);
+    }
+}
+
+class Ken extends Fighter {
+    public Ken(KickBehavior kickBehavior, JumpBehavior jumpBehavior) {
+        super("Ken", kickBehavior, jumpBehavior);
+    }
+}
+
+class ChunLi extends Fighter {
+    public ChunLi(KickBehavior kickBehavior, JumpBehavior jumpBehavior) {
+        super("Chun-Li", kickBehavior, jumpBehavior);
+    }
+}
+
+// Main game class
+public class StreetFighter {
+    public static void main(String[] args) {
+        // Create behaviors
+        KickBehavior tornadoKick = new TornadoKick();
+        KickBehavior lightningKick = new LightningKick();
+        JumpBehavior shortJump = new ShortJump();
+        JumpBehavior longJump = new LongJump();
+
+        // Create fighters with initial behaviors
+        Fighter ken = new Ken(tornadoKick, shortJump);
+        Fighter ryu = new Ryu(lightningKick, longJump);
+        Fighter chunLi = new ChunLi(lightningKick, shortJump);
+
+        // Demonstrate fighter abilities
+        demonstrateFighterAbilities(ken);
+        
+        // Demonstrate dynamic behavior change
+        System.out.println("\nChanging Ken's jump behavior...");
+        ken.setJumpBehavior(longJump);
+        ken.jump();
+    }
+
+    private static void demonstrateFighterAbilities(Fighter fighter) {
+        fighter.display();
+        fighter.punch();
+        fighter.kick();
+        fighter.jump();
+        fighter.roll();
+    }
 }
